@@ -16,6 +16,11 @@
 
 <button onclick="generate()">Generate Image</button>
 
+<br><br>
+X: <input type="range" id="posX" min="0" max="500" value="100"><br>
+Y: <input type="range" id="posY" min="0" max="500" value="100"><br>
+Size: <input type="range" id="size" min="100" max="600" value="300"><br>
+
 <br><canvas id="canvas" width="500" height="500"></canvas>
 
 <script>
@@ -63,8 +68,11 @@ if (imgRatio > canvasRatio) {
 const x = (canvas.width - drawWidth) / 2;
 const y = (canvas.height - drawHeight) / 2;
 
-ctx.drawImage(img, x, y, drawWidth, drawHeight);
+const posX = document.getElementById("posX").value;
+const posY = document.getElementById("posY").value;
+const size = document.getElementById("size").value;
 
+ctx.drawImage(img, posX, posY, size, size);
 // Transparency (blend effect)
 ctx.globalAlpha = 0.9;
 
