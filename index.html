@@ -38,7 +38,9 @@ function generate() {
   prodImg.src = URL.createObjectURL(prod);
 
   refImg.onload = () => {
-    ctx.drawImage(refImg, 0, 0, 500, 500);
+    ctx.globalAlpha = 0.3;
+ctx.drawImage(refImg, 0, 0, 500, 500);
+ctx.globalAlpha = 1;
 
     prodImg.onload = () => {
       // Adjust position & size here
