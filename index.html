@@ -43,8 +43,25 @@ function generate() {
     prodImg.onload = () => {
       // Adjust position & size here
   // Center position calculate
-const x = canvas.width / 2 - 150;
-const y = canvas.height / 2 - 100;
+const img = prodImg;
+
+const imgRatio = img.width / img.height;
+const canvasRatio = canvas.width / canvas.height;
+
+let drawWidth, drawHeight;
+
+if (imgRatio > canvasRatio) {
+  drawWidth = canvas.width;
+  drawHeight = canvas.width / imgRatio;
+} else {
+  drawHeight = canvas.height;
+  drawWidth = canvas.height * imgRatio;
+}
+
+const x = (canvas.width - drawWidth) / 2;
+const y = (canvas.height - drawHeight) / 2;
+
+ctx.drawImage(img, x, y, drawWidth, drawHeight);
 
 // Transparency (blend effect)
 ctx.globalAlpha = 0.9;
@@ -65,7 +82,7 @@ function drawRoundedImage(ctx, img, x, y, width, height, radius) {
   ctx.closePath();
   ctx.clip();
 
-  ctx.drawImage(img, x, y, 300, 250);
+ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   ctx.restore();
 }
 
