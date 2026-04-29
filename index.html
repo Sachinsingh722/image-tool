@@ -15,6 +15,7 @@
 <input type="file" id="prod" accept="image/*"><br><br>
 
 <button onclick="generate()">Generate Image</button>
+  <button onclick="downloadImage()">Download Image</button>
 
 <br><br>
 X: <input type="range" id="posX" min="0" max="500" value="100"><br>
@@ -32,6 +33,35 @@ function generate() {
     alert("Upload both images");
     return;
   }
+
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const refImg = new Image();
+  const prodImg = new Image();
+
+  refImg.src = URL.createObjectURL(ref);
+  prodImg.src = URL.createObjectURL(prod);
+
+  refImg.onload = () => {
+    // Reference image halka background jaisa
+    ctx.globalAlpha = 0.3;
+    ctx.drawImage(refImg, 0, 0, canvas.width, canvas.height);
+    ctx.globalAlpha = 1;
+
+    prodImg.onload = () => {
+
+      // Slider values
+      const posX = document.getElementById("posX").value;
+      const posY = document.getElementById("posY").value;
+      const size = document.getElementById("size").value;
+
+      // Product image draw
+      ctx.drawImage(prodImg, posX, posY, size, size);
+
+    }
+  }
+}
 
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
