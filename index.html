@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Layout Tool</title>
+  <style>
+    body { text-align:center; font-family: Arial; }
+    canvas { border:1px solid black; margin-top:20px; }
+  </style>
+</head>
+<body>
+
+<h2>Image Layout Generator</h2>
+
+<input type="file" id="ref" accept="image/*"><br><br>
+<input type="file" id="prod" accept="image/*"><br><br>
+
+<button onclick="generate()">Generate Image</button>
+
+<br><canvas id="canvas" width="500" height="500"></canvas>
+
+<script>
+function generate() {
+  const ref = document.getElementById('ref').files[0];
+  const prod = document.getElementById('prod').files[0];
+
+  if (!ref || !prod) {
+    alert("Upload both images");
+    return;
+  }
+
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const refImg = new Image();
+  const prodImg = new Image();
+
+  refImg.src = URL.createObjectURL(ref);
+  prodImg.src = URL.createObjectURL(prod);
+
+  refImg.onload = () => {
+    ctx.drawImage(refImg, 0, 0, 500, 500);
+
+    prodImg.onload = () => {
+      // Adjust position & size here
+  // Center position calculate
+const x = canvas.width / 2 - 150;
+const y = canvas.height / 2 - 100;
+
+// Transparency (blend effect)
+ctx.globalAlpha = 0.9;
+
+// Rounded image function
+function drawRoundedImage(ctx, img, x, y, width, height, radius) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
+  ctx.clip();
+
+  ctx.drawImage(img, x, y, 300, 250);
+  ctx.restore();
+}
+
+// Call function
+drawRoundedImage(ctx, prodImg, x, y, 300, 250, 20);
+    }
+  }
+}
+</script>
+
+</body>
+</html>
+<!-- update -->
